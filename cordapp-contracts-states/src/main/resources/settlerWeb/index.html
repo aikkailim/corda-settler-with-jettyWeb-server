@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Settler CorDapp</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.0-rc.1/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.2.0/ui-bootstrap-tpls.min.js"></script>
+
+    <script src="js/main.js"></script>
+    <script src="js/createObligationModal.js"></script>
+    <script src="js/settleModal.js"></script>
+
+</head>
+
+
+<body ng-app="demoAppModule" ng-controller="DemoAppCtrl as demoApp">
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">{{demoApp.thisNode}}</a>
+        </div>
+        <button ng-click="demoApp.openCreateObligationModal()" type="button" class="btn btn-primary navbar-btn">Create
+            Obligation
+        </button>
+        <button ng-click="demoApp.refresh()" type="button" class="btn btn-default navbar-btn"><span
+                class="glyphicon glyphicon-refresh"></span></button>
+    </div>
+</nav>
+
+<script type="text/ng-template" id="createObligationModal.html">
+    <div class="modal-header">
+        <h4 class="modal-title">Add new Obligation</h4>
+    </div>
+
+    <form>
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="createObligationRole" class="control-label">Role:</label>
+                <select ng-model="createObligationModal.form.role" class="form-control" id="createObligationRole">
+                    <option value="OBLIGEE">OBLIGEE</option>
+                    <option value="OBLIGOR">OBLIGOR</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="createObligationCounterparty" class="control-label">Counter-party:</label>
+                <select ng-model="createObligationModal.form.counterparty" class="form-control"
+                        id="createObligationCounterparty"
+                        ng-options="peer as peer for peer in createObligationModal.peers">
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="createObligationCurrency" class="control-label">Currency (ISO code):</label>
+                <input type="text" ng-model="createObligationModal.form.currency" class="form-control"
+                       id="createObligationCurrency">
+            </div>
+            <div class="form-group">
+                <label for="createObligationAmount" class="control-label">Amount (Int):</label>
+                <input type="text" ng-model="createObligationModal.form.amount" class="form-control"
+                       id="createObligationAmount">
+            </div>
+            <div class="form-group">
+                <label for="createObligationDueDate" class="control-label">Due Date:</label>
+                <input type="date" ng-model="createObligationModal.form.duedate" class="form-control"
+                       id="createObligationDueDate" min="2019-12-01" max="2022-12-31">
+            </div>
+
+            <div ng-show="createObligationModal.formError" class="form-group">
+                <div class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    Enter valid Obligation creation parameters
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button ng-click="createObligationModal.cancel()" type="button" class="btn btn-default">Close</button>
+            <button ng-click="createObligationModal.create()" type="button" class="btn btn-primary">Create Obligation
+            </button>
+        </div>
+    </form>
+</script>
+
+<script type="text/ng-template" id="createObligationMsgModal.html">
+    <div class="modal-body" id="create-Obligation-modal-body">
+        {{ createObligationMsgModal.message }}
+    </div>
+</script>
+
+<script type="text/ng-template" id="settleModal.html">
+    <div class="modal-header">
+        <h4 class="modal-title">Settle Obligation</h4>
+    </div>
+    <form>
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="settleCurrency" class="control-label">Currency (ISO code):</label>
+                <input type="text" ng-model="settleModal.form.currency" class="form-control" id="settleCurrency">
+            </div>
+            <div class="form-group">
+                <label for="settleAmount" class="control-label">Amount (Int):</label>
+                <input type="text" ng-model="settleModal.form.amount" class="form-control" id="settleAmount">
+            </div>
+            <div ng-show="settleModal.formError" class="form-group">
+                <div class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    Enter valid Obligation settle parameters.
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button ng-click="settleModal.cancel()" type="button" class="btn btn-default">Close</button>
+            <button ng-click="settleModal.settle()" type="button" class="btn btn-primary">Settle</button>
+        </div>
+    </form>
+</script>
+
+<script type="text/ng-template" id="settleMsgModal.html">
+    <div class="modal-body" id="settle-modal-body">
+        {{ settleMsgModal.message }}
+    </div>
+</script>
+
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <div ng-show="!demoApp.obligations.length" class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">There are no recorded Obligations</h3>
+            </div>
+            <div class="panel-body">Use the "Create Obligation" button to send an Obligation to a peer.</div>
+        </div>
+
+        <div ng-show="demoApp.obligations.length" class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Recorded Obligations:</h3>
+            </div>
+
+            <div class="panel-body">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Amount</th>
+                        <th>Paid</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="obligation in demoApp.obligations">
+                        <td class="vert-align">{{obligation.obligee.substring(0,30)}}</td>
+                        <td class="vert-align">{{obligation.obligor.substring(0,30)}}</td>
+                        <td class="vert-align">{{obligation.faceAmount}}</td>
+                        <td class="vert-align">{{obligation.amountPaid}}</td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <button ng-click="demoApp.openSettleModal(obligation.linearId.id)" type="button"
+                                        class="btn btn-primary">Settle
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,6 @@
+rootProject.name = 'corda-settler'
+//include 'cordapp'
+include 'cordapp-contracts-states'
+//include 'ripple'
+include 'oracle'
+include 'banking'

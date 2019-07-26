@@ -1,0 +1,29 @@
+RIPPLE SETTLER
+
+start CreateObligation amount: { quantity: 1000, token: { currencyCode: USD, type: fiat } }, role: OBLIGEE, counterparty: PartyB, dueBy: 1577793600, anonymous: false
+
+start NovateObligation linearId: 5804028e-6fa9-441b-8ad3-160ea32d1e58, novationCommand: { oldToken: { currencyCode: USD, type: fiat }, newToken: { currencyCode: USD, type: fiat }, oracle: Oracle, type: token }
+
+start UpdateSettlementMethod linearId: 5804028e-6fa9-441b-8ad3-160ea32d1e58, settlementMethod: { accountToPay: rEf5b3ZHD211kpZFb7gEV4ybCHRqq9ERsF , settlementOracle: Oracle, _type: com.r3.corda.finance.ripple.types.XrpSettlement }
+
+start OffLedgerSettleObligation amount: { quantity: 20000000, token: { currencyCode: XRP, type: digital } }, linearId: 5804028e-6fa9-441b-8ad3-160ea32d1e58
+
+start RetrieveObligation linearId: 5804028e-6fa9-441b-8ad3-160ea32d1e58
+
+
+
+BANKING SETTLER
+
+start CreateObligation amount: { quantity: 1000, token: { currencyCode: USD, type: fiat } }, role: OBLIGEE, counterparty: PartyB, dueBy: 1577793600, anonymous: false
+
+start UpdateSettlementMethod linearId: 05fbcb46-d1c8-420c-874d-7d1211890ab6, settlementMethod: { accountToPay: MockAccount123, settlementOracle: Oracle, _type: com.r3.corda.finance.banking.types.BankingSettlement }
+
+start OffLedgerSettleObligation amount: { quantity: 1000, token: { currencyCode: USD, type: fiat } }, linearId: 05fbcb46-d1c8-420c-874d-7d1211890ab6
+
+start RetrieveObligation linearId: 05fbcb46-d1c8-420c-874d-7d1211890ab6
+
+
+
+
+
+
