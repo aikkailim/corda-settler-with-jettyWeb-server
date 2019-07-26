@@ -28,7 +28,11 @@ Steps:
       runnodes
     
 
-* 4 windows should be opened, if not please close all of them and run command runnodes again.
+* 6 windows should be opened (4 for the nodes and 2 for the webserver), if not please close all of them and run command runnodes again.
+        
+      Web links:
+      PartyA: localhost:10007
+      PartyB: localhost:10010
 
 
 Once all the nodes have started, start with `Party A` and paste the following command to create a new
