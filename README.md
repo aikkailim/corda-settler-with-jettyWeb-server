@@ -73,6 +73,4 @@ you wish to refer to them once again:
 
 ## TODO
 
-* Still implementing a front end web server to interact with the nodes
-
-**Disclaimer: This repository is purely for experimentation purposes.
+* Frontend UI
